@@ -1,0 +1,37 @@
+export
+
+CC = @CC@
+LN_S = @LN_S@
+AR = @AR@
+RM = @RM@
+RMDIR = @RMDIR@
+INSTALL = @INSTALL@
+DISABLE_DOCUMENTATION = @DISABLE_DOCUMENTATION@
+DISABLE_BTRFSCONVERT = @DISABLE_BTRFSCONVERT@
+BTRFSCONVERT_EXT2 = @BTRFSCONVERT_EXT2@
+
+SUBST_CLFAGS = @CFLAGS@
+SUBST_LDFLAGS = @LDFLAGS@
+
+LIBS = @UUID_LIBS@ @BLKID_LIBS@ @ZLIB_LIBS@ @LZO2_LIBS@ -L. -pthread
+LIBBTRFS_LIBS = $(LIBS)
+
+# Static compilation flags
+STATIC_CFLAGS = $(CFLAGS) -ffunction-sections -fdata-sections
+STATIC_LDFLAGS = -static -Wl,--gc-sections
+STATIC_LIBS = @UUID_LIBS_STATIC@ @BLKID_LIBS_STATIC@ \
+	      @ZLIB_LIBS_STATIC@ @LZO2_LIBS_STATIC@ -L. -pthread
+
+prefix ?= @prefix@
+exec_prefix = @exec_prefix@
+bindir = @bindir@
+libdir ?= @libdir@
+incdir = @includedir@/btrfs
+udevdir = @UDEVDIR@
+udevruledir = ${udevdir}/rules.d
+
+# external libs required by various binaries; for btrfs-foo,
+# specify btrfs_foo_libs = <list of libs>; see $($(subst...)) rules below
+btrfs_convert_libs = @EXT2FS_LIBS@ @COM_ERR_LIBS@
+
+MAKEFILE_INC_INCLUDED = trueee

@@ -67,7 +67,6 @@ cscope.out
 .clang_complete
 depcomp
 libtool
-Makefile
 Documentation/Makefile
 missing
 mkinstalldirs
