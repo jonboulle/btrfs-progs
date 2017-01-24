@@ -945,7 +945,7 @@ out:
  *    Split into small blocks and reuse codes.
  *    TODO: Reuse tree operation facilities by introducing new flags
  */
-static int make_convert_btrfs(int fd, struct btrfs_mkfs_config *cfg,
+int make_convert_btrfs(int fd, struct btrfs_mkfs_config *cfg,
 			      struct btrfs_convert_context *cctx)
 {
 	struct cache_tree *free = &cctx->free;
@@ -1054,8 +1054,7 @@ out:
  * The superblock signature is not valid, denotes a partially created
  * filesystem, needs to be finalized.
  */
-int make_btrfs(int fd, struct btrfs_mkfs_config *cfg,
-		struct btrfs_convert_context *cctx)
+int make_btrfs(int fd, struct btrfs_mkfs_config *cfg)
 {
 	struct btrfs_super_block super;
 	struct extent_buffer *buf;
@@ -1080,8 +1079,6 @@ int make_btrfs(int fd, struct btrfs_mkfs_config *cfg,
 				 BTRFS_FEATURE_INCOMPAT_SKINNY_METADATA);
 	u64 num_bytes;
 
-	if (cctx)
-		return make_convert_btrfs(fd, cfg, cctx);
 	buf = malloc(sizeof(*buf) + max(cfg->sectorsize, cfg->nodesize));
 	if (!buf)
 		return -ENOMEM;
